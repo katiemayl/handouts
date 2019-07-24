@@ -400,9 +400,13 @@ value=val,
 head(cbp)
 str(cbp)
 cbp_23_hw_e2 <- fread('data/cbp15co.csv', na.strings = '') %>%
+    #reads in the data, considers missing data to be NAs
 filter(NAICS == '23----') %>%
+    #includes only NAICS that start with 23
 select(starts_with("FIPS"),"AP")
+  #selects only rows that are either named "AP", or start with "FIPS"
 head(cbp_23_hw_e2)
+  #look at it
 #Exercise 3: Write code to create a data frame giving, for each state, the number of counties in
 #the CBP survey with establishements in mining or oil and gas extraction (‘21—-‘) along with
 #their total employment (“EMP”). Group the data using bothFIPSTATE and FIPSCTY and use the fact
@@ -425,6 +429,7 @@ group_by(FIPSTATE, FIPSCTY) %>%
 summarize(EMP = sum(EMP))%>%
 #sum counties in each state
 summarize(EMP = sum(EMP), counties = n())
+
 #Exercise 4: A “pivot table” is a transformation of tidy data into a wide summary table.
 #First, data are summarized by two grouping factors, then one of these is “pivoted” into columns.
 #Starting from a filtered CBP data file, chain a split-apply-combine procedure into the tidyr
@@ -437,76 +442,16 @@ str_detect(NAICS,"[0-9]{2}----"))
 group_by(FIPSTATE, NAICS) %>%
 #get the sum of the # of employees
 summarize(EMP = sum(EMP))
-pivot <- fread('data/cbp15co.csv', na.strings = '')
-head(pivot)
+
+
 pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
 # head(pivot)
 #select out what to use
 str_detect(NAICS,"[0-9]{2}----"))%>%
-#group by state anf 2 digit NAICS code
+#group by state and 2 digit NAICS code
 group_by(FIPSTATE, NAICS) %>%
 #get the sum of the # of employees
-summarize(EMP = sum(EMP))
-pivot <- fread('data/cbp15co.csv', na.strings = '')
-pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-str_detect(NAICS,"[0-9]{2}----"))
-pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-str_detect(NAICS,"[0-9]{2}----")
-pivot <- fread('data/cbp15co.csv', na.strings = '')
-head(pivot)
-pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-str_detect(NAICS,"[0-9]{2}----")
-pivot <- fread('data/cbp15co.csv', na.strings = '') %>%
-filter(str_detect(NAICS, '[0-9]{2}----')) %>%
-group_by(FIPSTATE, NAICS) %>%
-summarize(EMP = sum(EMP)) %>%
+summarize(EMP = sum(EMP))%>%
 spread(key = NAICS, value = EMP)
-pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-filter(str_detect(NAICS,"[0-9]{2}----"))%>%
-#group by state anf 2 digit NAICS code
-group_by(FIPSTATE, NAICS) %>%
-#get the sum of the # of employees
-summarize(EMP = sum(EMP))
-pivot
-pivot2 <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-filter(str_detect(NAICS,"[0-9]{2}----"))%>%
-#group by state anf 2 digit NAICS code
-group_by(FIPSTATE, NAICS) %>%
-#get the sum of the # of employees
-summarize(EMP = sum(EMP)) %>%
-pivot <- fread('data/cbp15co.csv', na.strings = '') %>%
-filter(str_detect(NAICS, '[0-9]{2}----')) %>%
-group_by(FIPSTATE, NAICS) %>%
-summarize(EMP = sum(EMP)) %>%
-spread(key = NAICS, value = EMP)
-pivot <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-filter(str_detect(NAICS,"[0-9]{2}----"))%>%
-#group by state anf 2 digit NAICS code
-group_by(FIPSTATE, NAICS) %>%
-#get the sum of the # of employees
-summarize(EMP = sum(EMP))
-pivot
-pivot2 <- fread('data/cbp15co.csv', na.strings = '')%>%
-# head(pivot)
-#select out what to use
-filter(str_detect(NAICS,"[0-9]{2}----"))%>%
-#group by state anf 2 digit NAICS code
-group_by(FIPSTATE, NAICS) %>%
-#get the sum of the # of employees
-summarize(EMP = sum(EMP)) %>%
-spread(key = NAICS, value = EMP)
-pivot2
-pivot
+
 savehistory("~/handouts/worksheet-4.R")
